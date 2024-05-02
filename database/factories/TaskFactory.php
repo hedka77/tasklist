@@ -16,8 +16,19 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            //
-        ];
+        return [ 'title'            => fake()->sentence(4),
+                 'description'      => fake()->paragraph,
+                 'long_description' => fake()->paragraph(7, true),
+                 'completed'        => fake()->boolean, ];
+    }
+
+    public function uncompleted(): static
+    {
+        return $this->state(fn(array $attributes) => [ 'completed' => false, ]);
+    }
+
+    public function long_title(): static
+    {
+        return $this->state(fn(array $attributes) => [ 'title' => fake()->sentence(10), ]);
     }
 }

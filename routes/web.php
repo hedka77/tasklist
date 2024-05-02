@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
+use App\Models\Task;
 
 
-class MyTask
+/*class MyTask
 {
     public function __construct(public int     $id,
                                 public string  $title,
@@ -30,24 +31,28 @@ $tasks = [ new MyTask(1,
                     true,
                     '2023-03-03 12:00:00',
                     '2023-03-03 12:00:00'),
-           new MyTask(4, 'Take dogs for a walk', 'Task 4 description', null, false, '2023-03-04 12:00:00', '2023-03-04 12:00:00'), ];
+           new MyTask(4, 'Take dogs for a walk', 'Task 4 description', null, false, '2023-03-04 12:00:00', '2023-03-04 12:00:00'), ];*/
 
 Route::get('/', function() {
     return redirect()->route('tasks.index');
 });
 
-Route::get('/tasks', function() use ($tasks) {
-    return view('tasks.index', [ 'tasks' => $tasks ]);
+Route::get('/tasks', function() {
+    //return view('tasks.index', [ 'tasks' => Task::all() ]);
+    //return view('tasks.index', [ 'tasks' => Task::latest()->where('completed', true)->get() ]); //query builder
+    return view('tasks.index', [ 'tasks' => Task::latest()->get() ]);
 })->name('tasks.index');
 
-Route::get('/tasks/{id}', function($id) use ($tasks) {
-    $task = collect($tasks)->firstWhere('id', $id);
+Route::view('/tasks/create', 'create')->name('tasks.create');
+
+Route::get('/tasks/{id}', function($id) {
+    /*$task = collect($tasks)->firstWhere('id', $id);
 
     if (!$task) {
         abort(Response::HTTP_NOT_FOUND);
-    }
+    }*/
 
-    return view('tasks.show', [ 'task' => $task ]);
+    return view('tasks.show', [ 'task' => Task::findOrFail($id) ]);
 
 })->name('tasks.show');
 
