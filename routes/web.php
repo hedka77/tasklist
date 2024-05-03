@@ -56,6 +56,10 @@ Route::get('/tasks/{id}', function($id) {
 
 })->name('tasks.show');
 
+Route::post('/tasks', function() {
+    dd('We have reach the store route');
+})->name('tasks.store');
+
 
 /*Route::get('/', function() {
     return view('index', [//'name' => 'Edgar S. Ochoa'
