@@ -8,6 +8,9 @@
         <div>
             <label for="title">Title</label>
             <input type="text" id="title" name="title">
+            @error('title')
+            <p>{{ $message }}</p>
+            @enderror
         </div>
 
         <div>
@@ -16,8 +19,8 @@
         </div>
 
         <div>
-            <label for="description_long">Long description</label>
-            <textarea id="description_long" name="description_long" rows="10"></textarea>
+            <label for="long_description">Long description</label>
+            <textarea id="long_description" name="long_description" rows="10"></textarea>
         </div>
 
         <div>
