@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Task')
+{{--@section('title', 'Edit Task')--}}
 
-@section('styles')
+{{--@section('styles')
     <style>
         .error-message {
             color     : #FF2D20;
@@ -10,10 +10,10 @@
         }
     </style>
 
-@endsection
+@endsection--}}
 
 @section('content')
-    <form action="{{ route('tasks.update', ['task' => $task]) }}" method="POST">
+    {{--<form action="{{ route('tasks.update', ['task' => $task]) }}" method="POST">
         @csrf
         @method('PUT')
         <div>
@@ -48,5 +48,8 @@
             <button type="submit">Edit task</button>
         </div>
 
-    </form>
+    </form>--}}
+
+    @include('form', ['task' => $task])
+
 @endsection

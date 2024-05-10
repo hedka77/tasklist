@@ -42,7 +42,7 @@ Route::get('/', static function() {
 Route::get('/tasks', static function() {
     //return view('tasks.index', [ 'tasks' => Task::all() ]);
     //return view('tasks.index', [ 'tasks' => Task::latest()->where('completed', true)->get() ]); //query builder
-    return view('tasks.index', [ 'tasks' => Task::latest()->get() ]);
+    return view('tasks.index', [ 'tasks' => Task::latest()->paginate(15) ]);
 })->name('tasks.index');
 
 Route::view('/tasks/create', 'create')->name('tasks.create');
@@ -89,7 +89,7 @@ Route::post('/tasks', static function(TaskRequest $request) {
     
     $task = Task::create($request->validated());
     
-    return redirect()->route('tasks.show', [ 'id' => $task->id ])->with('success', 'Task created successfully!');
+    return redirect()->route('tasks.show', [ 'task' => $task ])->with('success', 'Task created successfully!');
 })->name('tasks.store');
 
 Route::put('/tasks/{task}', static function(Task $task, TaskRequest $request) {
@@ -109,6 +109,18 @@ Route::put('/tasks/{task}', static function(Task $task, TaskRequest $request) {
     
     return redirect()->route('tasks.show', [ 'task' => $task ])->with('success', 'Task updated successfully!');
 })->name('tasks.update');
+
+Route::put('tasks/toggle-completed/{task}', static function(Task $task) {
+    $task->toggleCompleted();
+    
+    return redirect()->route('tasks.show', [ 'task' => $task ])->with('success', 'Task updated successfully!');
+})->name('tasks.toggle-completed');
+
+Route::delete('/tasks/{task}', static function(Task $task) {
+    $task->delete();
+    
+    return redirect()->route('tasks.index')->with('success', 'Task deleted successfully!');
+})->name('tasks.destroy');
 
 
 /*Route::get('/', function() {
