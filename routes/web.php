@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -35,7 +36,8 @@ $tasks = [ new MyTask(1,
                     '2023-03-03 12:00:00'),
            new MyTask(4, 'Take dogs for a walk', 'Task 4 description', null, false, '2023-03-04 12:00:00', '2023-03-04 12:00:00'), ];*/
 
-Route::get('/', static function() {
+Route::get('/', static function()
+{
     return redirect()->route('tasks.index');
 });
 
@@ -45,13 +47,15 @@ Route::get('/', static function() {
     ]);
 });*/
 
-Route::get('/tasks', function() {
+Route::get('/tasks', function()
+{
     //Route::get('/tasks', function() use ($tasks) {
     //return view('tasks.index', [ 'tasks' => Task::all() ]);
     //return view('tasks.index', [ 'tasks' => Task::latest()->where('completed', true)->get() ]); //query builder
 
     return view('tasks.index', [ //'tasks' => $tasks
-                                 'tasks' => Task::latest()->paginate(15) ]);
+                                 'tasks' => Task::latest()->paginate(15)
+    ]);
 })->name('tasks.index');
 
 Route::view('/tasks/create', 'create')->name('tasks.create');
@@ -67,27 +71,34 @@ Route::view('/tasks/create', 'create')->name('tasks.create');
 
 })->name('tasks.show');*/
 
-Route::get('/tasks/{task}', static function(Task $task) {
+Route::get('/tasks/{task}',
+    static function(Task $task) // This is implicit route model binding, as the variable $user match the model App\Models\Task. Laravel inject the model instance that has the matching ID, otherwise generate a 404 HTTP response
+    {
 
-    return view('tasks.show', [ 'task' => $task ]);
+        return view('tasks.show', [ 'task' => $task ]);
 
-})->name('tasks.show');
+    })->name('tasks.show');
+
+//Route::get('/tasks/{task}', [ TaskController::class, 'show' ])->name('tasks.show'); // This is ALSO implicit binding using controller methods
 
 /*Route::get('/tasks/edit/{id}', static function($id) {
     return view('tasks.edit', [ 'task' => Task::findOrFail($id) ]);
 
 })->name('tasks.edit');*/
 
-Route::get('/tasks/edit/{task}', static function(Task $task) {
+Route::get('/tasks/{task}/edit', static function(Task $task)
+{
     return view('tasks.edit', [ 'task' => $task ]);
 
 })->name('tasks.edit');
 
-Route::post('/tasks', static function(TaskRequest $request) {
-
-    /*$data = $request->validate([ 'title'            => 'required|max:255',
-                                 'description'      => 'required',
-                                 'long_description' => 'required', ]);*/
+Route::post('/tasks', static function(TaskRequest $request)
+{
+    /*$data = $request->validate([
+                                   'title'            => 'required|max:255',
+                                   'description'      => 'required',
+                                   'long_description' => 'required',
+                               ]);*/
 
     /*$data                   = $request->validated();
     $task                   = new Task();
@@ -101,7 +112,8 @@ Route::post('/tasks', static function(TaskRequest $request) {
     return redirect()->route('tasks.show', [ 'task' => $task ])->with('success', 'Task created successfully!');
 })->name('tasks.store');
 
-Route::put('/tasks/{task}', static function(Task $task, TaskRequest $request) {
+Route::put('/tasks/{task}', static function(Task $task, TaskRequest $request)
+{
 
     /*$data = $request->validate([ 'title'            => 'required|max:255',
                                  'description'      => 'required',
@@ -117,26 +129,31 @@ Route::put('/tasks/{task}', static function(Task $task, TaskRequest $request) {
     $task->update($request->validated());
 
     return redirect()->route('tasks.show', [ 'task' => $task ])->with('success', 'Task updated successfully!');
+
 })->name('tasks.update');
 
-Route::put('tasks/toggle-completed/{task}', static function(Task $task) {
+Route::put('tasks/toggle-completed/{task}', static function(Task $task)
+{
     $task->toggleCompleted();
 
     return redirect()->route('tasks.show', [ 'task' => $task ])->with('success', 'Task updated successfully!');
 })->name('tasks.toggle-completed');
 
-Route::delete('/tasks/{task}', static function(Task $task) {
+Route::delete('/tasks/{task}', static function(Task $task)
+{
     $task->delete();
 
     return redirect()->route('tasks.index')->with('success', 'Task deleted successfully!');
 })->name('tasks.destroy');
 
 
-Route::get('/hello', function() {
+Route::get('/hello', function()
+{
     return 'Hola tonotos!';
 })->name('hello');
 
-Route::get('/hello/{name}', function($name) {
+Route::get('/hello/{name}', function($name)
+{
     return 'You are not supposed to be here, ' . $name;
 });
 
@@ -144,10 +161,12 @@ Route::get('/hello/{name}', function($name) {
     return "You spell that wrong, it's \"hello\", not hellou, " . $name;
 })->name('hello');*/
 
-Route::get('/hellou', function() {
+Route::get('/hellou', function()
+{
     return redirect()->route('hello');
 });
 
-Route::fallback(function() {
+Route::fallback(function()
+{
     return 'Missing someting?';
 });

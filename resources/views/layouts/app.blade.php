@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Laravel 11 Tasks List App</title>
+        <title>Laravel 12 Tasks List App</title>
         <link href="{{ asset('css/styles.css') }}" rel="stylesheet" type="text/css">
 
         {{--@vite(['resources/css/styles.css'])--}}

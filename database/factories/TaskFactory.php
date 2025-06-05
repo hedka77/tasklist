@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Task;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Task>
+ * @extends Factory<Task>
  */
 class TaskFactory extends Factory
 {
@@ -16,10 +17,12 @@ class TaskFactory extends Factory
      */
     public function definition(): array
     {
-        return [ 'title'            => fake()->sentence(4),
-                 'description'      => fake()->paragraph,
-                 'long_description' => fake()->paragraph(7, true),
-                 'completed'        => fake()->boolean, ];
+        return [
+            'title'            => fake()->sentence(4),
+            'description'      => fake()->paragraph,
+            'long_description' => fake()->paragraph(7, true),
+            'completed'        => fake()->boolean,
+        ];
     }
 
     public function uncompleted(): static
@@ -29,6 +32,9 @@ class TaskFactory extends Factory
 
     public function long_title(): static
     {
-        return $this->state(fn(array $attributes) => [ 'title' => fake()->sentence(10), ]);
+        return $this->state(fn(array $attributes)
+            => [
+            'title' => fake()->sentence(10),
+        ]);
     }
 }
