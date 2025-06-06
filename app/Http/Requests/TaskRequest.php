@@ -10,11 +10,13 @@ class TaskRequest extends FormRequest
     {
         return true;
     }
-    
+
     public function rules(): array
     {
-        return [ 'title'            => 'required|max:255',
-                 'description'      => 'required',
-                 'long_description' => 'required', ];
+        return [
+            'title'            => 'required|max:255',
+            'description'      => 'required',
+            'long_description' => 'required',
+        ];
     }
 }
