@@ -54,7 +54,7 @@ Route::get('/tasks', function()
     //return view('tasks.index', [ 'tasks' => Task::latest()->where('completed', true)->get() ]); //query builder
 
     return view('tasks.index', [ //'tasks' => $tasks
-                                 'tasks' => Task::latest()->paginate(15)
+                                 'tasks' => Task::latest()->paginate(10)
     ]);
 })->name('tasks.index');
 

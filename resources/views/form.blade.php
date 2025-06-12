@@ -18,9 +18,13 @@
         @isset($task)
             @method('PUT')
         @endisset
+
         <div class="mb-4">
             <label for="title">Title</label>
-            <input type="text" id="title" name="title" value="{{ $task->title ?? old('title') }}" @class(['border-red-500' => $errors->has('title')])>
+            <input type="text"
+                   id="title"
+                   name="title"
+                   value="{{ $task->title ?? old('title') }}" @class(['border-red-500' => $errors->has('title')])>
             @error('title')
             <p class="error">{{ $message }}</p>
             @enderror
@@ -39,7 +43,10 @@
         <div class="mb-4">
             <label for="long_description">Long description</label>
             {{--<textarea id="long_description" name="long_description" rows="10" @class(['border-red-500' => $errors->has('long_description')])>--}}
-            <textarea id="long_description" name="long_description" rows="10" class="@error('long_description') border-red-500 @enderror border">
+            <textarea id="long_description"
+                      name="long_description"
+                      rows="10"
+                      class="@error('long_description') border-red-500 @enderror border">
                 {{ $task->long_description ?? old('long_description') }}
             </textarea>
             @error('long_description')
@@ -52,7 +59,7 @@
                 @isset($task)
                     Update Task
                 @else
-                    Add task
+                    Add Task
                 @endisset
             </button>
 
